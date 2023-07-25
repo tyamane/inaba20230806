@@ -36,5 +36,19 @@ No.18 スマホで動かすマイコンロボットカー
 
 時間の余裕がある範囲で、希望者にはプログラム書き換えを体験してもらいます。
 
-![](./QR_205097.png)
+### サポートページ
 
+https://github.com/tyamane/inaba20230806
+
+![](./QR_github.png)
+
+
+### RemoteXyのインストール
+
+
+![](./remotexy_app.png)
+
+
+### RemoteXYサイト
+
+![](./QR_RemoteXY.png)
