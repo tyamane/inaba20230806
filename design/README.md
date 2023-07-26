@@ -49,7 +49,9 @@
 ![](./img/remotexy_editor.png)
 
 RemoteXYを使うためには、スマホ側にRemoteXYプリをインストールしておく必要があります。
-![](remotexy_app.png)
+
+![](./img/remotexy_app.png)
+
 
 
 ## ロボットカーを構成する部品
