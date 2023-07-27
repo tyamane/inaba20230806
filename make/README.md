@@ -1,83 +1,74 @@
-# 制作手順
 
-## パーツリスト
+![](./img/image001.png)
 
-![](./img/全パーツリスト.jpg)
+![](./img/image003.png)
 
-|No|品名|個数|
-|--:|:--|--:|
-|1  |モータードライバ L298N |1|
-|2  |ホイール・タイヤ |2|
-|3  |TTモーター |2|
-|4  |デュポンワイヤ F-M 10cm|1|
-|5  |デュポンワイヤ M-M 20cm|1|
-|6  |Wemos D1 mini(ESP8266)|1|
-|7  |ミニブレッドボード|1|
-|8  |電池スナップ　SW付き|1|
+![](./img/image005.png)
 
-## ボディの制作
+![](./img/image007.png)
 
-### 原紙
-![](./img/ボディ(原紙).jpg)
+![](./img/image009.png)
 
-パーツを切り出します
+![](./img/image011.png)
 
-![](./img/ボディ全パーツ.jpg)
+![](./img/image013.png)
 
-同じパーツを2枚貼り合わせます。
+![](./img/image015.png)
 
-![](./img/ボディ貼り合わせ①.jpg)
-![](./img/ボディ貼り合わせ②.jpg)
-![](./img/ボディ貼り合わせ③.jpg)
+![](./img/image017.png)
 
-![](./img/ボディ貼り合わせ④.jpg)
+![](./img/image019.png)
 
-このパーツだけは向きに注意。
+![](./img/image021.png)
 
-![](./img/ボディ貼り合わせ⑤.jpg)
-![](./img/ボディ貼り合わせ⑥.jpg)
+![](./img/image023.png)
 
+![](./img/image025.png)
 
-円形のパーツは５枚重ね合わせます。
+![](./img/image027.png)
 
-![](./img/ボディ(脚)①.jpg)
-![](./img/ボディ(脚)②.jpg)
+![](./img/image029.png)
 
+![](./img/image031.png)
 
+![](./img/image033.png)
 
-![](./img/構造図.png)
+![](./img/image035.png)
 
-## 配線
+![](./img/image037.png)
 
-### 配線図
+![](./img/image039.png)
 
-![](./img/配線全体②.jpg)
+![](./img/image041.png)
 
-![](./img/配線図.png)
+![](./img/image043.png)
 
-### モータードライバ周りの配線
+![](./img/image045.png)
 
-#### 電源の線(赤/黒)をターミナルブロックに接続します。
+![](./img/image047.png)
 
-![](./img/モータードライバ周り.png)
+![](./img/image049.png)
 
+![](./img/image051.png)
 
-#### デュポンワイヤをピン端子に接続します。
+![](./img/image053.png)
 
-上から、オレンジ、黄、緑、青、紫、灰
+![](./img/image055.png)
 
-![](./img/モータードライバ配線(ピンヘッダクローズアップ).jpg)
+![](./img/image057.png)
 
-![](./img/モータードライバ配線(電源).jpg)
+![](./img/image059.png)
 
-![](./img/モータードライバ配線(裏).jpg)
+![](./img/image061.png)
 
-### マイコンとの接続
+![](./img/image063.png)
 
-ワイヤの色を合わせて、対応する端子に接続します。
+![](./img/image065.png)
 
-![](./img/マイコンの配線①.png)
-![](./img/マイコンの配線②.png)
+![](./img/image067.png)
 
-## ボディの組み立て
+![](./img/image069.png)
+
+![](./img/image071.png)
+
 
