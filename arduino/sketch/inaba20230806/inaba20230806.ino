@@ -26,18 +26,16 @@
 #include <RemoteXY.h>
 
 // RemoteXY connection settings 
-#define REMOTEXY_WIFI_SSID "RemoteXY"
+#define REMOTEXY_WIFI_SSID "INABA02"
 #define REMOTEXY_WIFI_PASSWORD "12345678"
 #define REMOTEXY_SERVER_PORT 6377
 
-
 // RemoteXY configurate  
 #pragma pack(push, 1)
-uint8_t RemoteXY_CONF[] =   // 79 bytes
-  { 255,3,0,46,0,72,0,16,31,1,5,37,5,49,51,51,2,26,31,66,
+uint8_t RemoteXY_CONF[] =   // 52 bytes
+  { 255,3,0,13,0,45,0,16,31,1,5,37,4,42,51,51,2,26,31,66,
   1,48,6,7,16,2,26,66,1,7,5,7,16,2,26,67,4,17,5,29,
-  4,2,26,11,4,160,19,14,24,7,6,26,67,4,8,26,47,4,2,26,
-  11,67,4,8,31,47,4,2,26,11,67,4,8,36,47,4,2,26,11 };
+  5,2,26,11,4,160,19,14,24,7,6,26 };
   
 // this structure defines all the variables and events of your control interface 
 struct {
@@ -51,9 +49,6 @@ struct {
   int8_t level_right; // =0..100 level position 
   int8_t level_left; // =0..100 level position 
   char text_1[11];  // string UTF8 end zero 
-  char text_2[11];  // string UTF8 end zero 
-  char text_3[11];  // string UTF8 end zero 
-  char text_4[11];  // string UTF8 end zero 
 
     // other variable
   uint8_t connect_flag;  // =1 if wire connected, else =0 
@@ -64,7 +59,6 @@ struct {
 /////////////////////////////////////////////
 //           END RemoteXY include          //
 /////////////////////////////////////////////
-
 
 #include <EEPROM.h>
 
@@ -86,8 +80,6 @@ ADC_MODE(ADC_VCC);
 
 /* defined the LED pin */
 #define PIN_LED 2
-
-
 
 /* defined two arrays with a list of pins for each motor */
 unsigned char RightMotor[3] = 
@@ -150,8 +142,6 @@ int control_xy( int x, int y)
   static unsigned long t = 0;
   int d=0;
 
-
-
   if (t != 0){
     d = millis() - t; // 前回の呼び出しからの経過時間(ミリ秒)
   }
@@ -163,10 +153,10 @@ int control_xy( int x, int y)
       // 待機時間中はモーターを止める
       //Wheel (RightMotor, 0);
       //Wheel (LeftMotor, 0);
-      sprintf(RemoteXY.text_3, "**DELAY**\n");
+      //sprintf(RemoteXY.text_3, "**DELAY**\n");
       return state;
     }
-    sprintf(RemoteXY.text_3, "\n");
+    //sprintf(RemoteXY.text_3, "\n");
     // 待機期間終了
     state = old_state;
   }
@@ -177,10 +167,10 @@ int control_xy( int x, int y)
     state = STOP;
   }
   else{
-    if ( y > 20 && abs(x) < 90 ){
+    if ( y > 30 /*&& abs(x) < 90*/ ){
       state = FORWARD;
     }
-    else if ( y < -20  && abs(x) < 90 ){
+    else if ( y < -30 /*&& abs(x) < 90*/ ){
       state = BACK;
     }
     else{
@@ -192,8 +182,8 @@ int control_xy( int x, int y)
       }
       else{
         // 微妙なところはモーターだけ止める
-        //Wheel (RightMotor, 0);
-        //Wheel (LeftMotor, 0);
+        Wheel (RightMotor, 0);
+        Wheel (LeftMotor, 0);
         return state;  
       }
     }  
@@ -205,6 +195,10 @@ int control_xy( int x, int y)
     state = DELAY;
     return state;
   }
+
+  // モーターバランス調整パラメータ
+  // eeprom_data.adjust -100 .. +100
+  x += (eeprom_data.adjust / 10);
   switch(state){
     case 0: // stop
       delay = 0;
@@ -213,13 +207,13 @@ int control_xy( int x, int y)
       break;
     case FORWARD:
     case BACK:
-      Wheel (RightMotor, y + x);
-      Wheel (LeftMotor, y - x);
+      Wheel (RightMotor, y + x/2); // ジョイスティックx方向の影響度を小さくする（曲がりにくい）
+      Wheel (LeftMotor, y - x/2);
       break;
     case LEFT:
     case RIGHT:
-      Wheel (RightMotor, y + x);
-      Wheel (LeftMotor, y - x);
+      Wheel (RightMotor, (y + x) );// 旋回速度を落とす
+      Wheel (LeftMotor, (y - x) );
       break;
   }
   old_state = state;
@@ -229,7 +223,6 @@ int control_xy( int x, int y)
 void setup() 
 {
   Serial.begin(115200);
-  Serial.print("\n\n---- setup -----\n");
 
   /* initialization pins */
   pinMode (PIN_MOTOR_RIGHT_UP, OUTPUT);
@@ -252,11 +245,9 @@ void setup()
     eeprom_data.adjust = 0; //center
     EEPROM.put(0, eeprom_data); // EEPROMを更新する
     EEPROM.commit();
-    Serial.printf("initialize %d\n", eeprom_data.adjust);
   }
   // EEPROMに保存されている値でUIを更新する
   RemoteXY.adjust = eeprom_data.adjust;
-  Serial.printf("setup %d\n", eeprom_data.adjust);
 }
 
 const char* txt [] = {
@@ -265,22 +256,15 @@ const char* txt [] = {
 
 void loop() 
 { 
-  //Serial.print("*");
   RemoteXY_Handler ();
 
   if (RemoteXY.adjust != eeprom_data.adjust){
     eeprom_data.adjust = RemoteXY.adjust;
     EEPROM.put(0, eeprom_data); // EEPROMを更新する
     EEPROM.commit();
-    Serial.printf("update %d\n", eeprom_data.adjust);
   }
-
-  //Wheel (RightMotor, RemoteXY.joystick_1_y + RemoteXY.joystick_1_x);
-  //Wheel (LeftMotor, RemoteXY.joystick_1_y - RemoteXY.joystick_1_x);
-
   int state = control_xy(RemoteXY.joystick_1_x, RemoteXY.joystick_1_y);
   sprintf(RemoteXY.text_1, "%s", txt[state]);
-  sprintf(RemoteXY.text_2, "%4d %4d\n", RemoteXY.joystick_1_x, RemoteXY.joystick_1_y);
 
   RemoteXY.level_left = 50 + normalize(RemoteXY.joystick_1_y + RemoteXY.joystick_1_x) / 2;
   RemoteXY.level_right = 50 + normalize(RemoteXY.joystick_1_y - RemoteXY.joystick_1_x) / 2;
