@@ -92,6 +92,9 @@ Arduino IDEを使って「INABA2023 ロボットカー」のプログラミン�
 ![](./img/arduino_ide3.png)をクリックしてください。
 
 追加のボードマネージャのURLに次のURLを追加して「OK」ボタンをクリック
+```
+http://arduino.esp8266.com/stable/package_esp8266com_index.json
+```
 
 ![](./img/arduino_ide4.png)
 
