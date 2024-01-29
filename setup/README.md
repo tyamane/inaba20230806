@@ -114,6 +114,18 @@ http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 ![](./img/arduino_ide7.png)
 
+
+次に
+
+メニューから「ツール」->「ライブラリを管理」->「ライブラリマネージャ」をクリックしてください。
+
+![](./img/arduino_software_remote_xy.png)
+
+検索ボックスに「RemoteXY」と入力し、インストールボタンを押してください。
+
+必要なライブラリが追加されます。
+
+
 ## Arduino IDE の基本的な使い方
 
 セットアップが完了すると、このような画面が表示されているはずです。
